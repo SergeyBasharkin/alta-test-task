@@ -30,7 +30,7 @@ public class VacancyConsumer {
     @Consume(uri = "direct:newFilePathHeader")
     public Object list(Vacancy vacancy, Exchange exchange) {
         GenericFileMessage customMessage = (GenericFileMessage) exchange.getIn();
-        customMessage.getHeaders().put("customUri", "file:" + "/data/output/" + vacancy.getCity() + "?fileName=" + vacancy.getId() + ".xml");
+        customMessage.getHeaders().put("customUri", "file:" + "/data/output/" + vacancy.getCity() + "?fileName=" + exchange.getIn().getHeader("CamelFileName", String.class));
         exchange.setIn(customMessage);
         return exchange.getIn().getBody();
     }
